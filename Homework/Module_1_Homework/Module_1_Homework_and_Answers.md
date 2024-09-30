@@ -14,6 +14,8 @@ You can get the version information using the `__version__` field:
 ```python
 pd.__version__
 ```
+### **Answer:** 
+Pandas version: ```2.2.2```.
 
 ### Getting the data 
 
@@ -39,6 +41,9 @@ How many records are in the dataset?
 - 2160
 - 12160
 
+### **Answer:** 
+There are 2160 records in the dataset. 
+
 ### Q3. Laptop brands
 
 How many laptop brands are presented in the dataset?
@@ -47,6 +52,9 @@ How many laptop brands are presented in the dataset?
 - 27
 - 28
 - 2160
+
+### **Answer:** 
+There are 27 laptop brands in the dataset. 
 
 ### Q4. Missing values
 
@@ -57,6 +65,9 @@ How many columns in the dataset have missing values?
 - 2
 - 3
 
+### **Answer:** 
+There are 3 columns with missing values in the dataset. 
+
 ### Q5. Maximum final price
 
 What's the maximum final price of Dell notebooks in the dataset?
@@ -65,6 +76,9 @@ What's the maximum final price of Dell notebooks in the dataset?
 - 3691
 - 3849
 - 3936
+
+### **Answer:** 
+The maximum final price for Dell notebooks is 3936.
 
 ### Q6. Median value of Screen
 
@@ -79,6 +93,9 @@ Has it changed?
 
 - Yes
 - No
+
+### **Answer:** 
+No, the median value of `Screen` has not changed.
 
 ### Q7. Sum of weights
 
@@ -98,6 +115,8 @@ Has it changed?
 - 45.58
 - 91.30
 
+### **Answer:** 
+The answer is 91.30.
 
 ## Submit the results
 
