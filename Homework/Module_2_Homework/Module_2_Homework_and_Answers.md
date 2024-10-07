@@ -38,7 +38,8 @@ Next, use only the following columns:
 
 * Look at the `final_price` variable. Does it have a long tail? 
 
-
+### **Answer:** 
+Yes, it does.
 
 ### Question 1
 
@@ -49,6 +50,8 @@ There's one column with missing values. What is it?
 * `'screen'`
 * `'final_price'`
 
+### **Answer:** 
+The `'screen'` column has missing values.
 
 ### Question 2
 
@@ -58,6 +61,10 @@ What's the median (50% percentile) for variable `'ram'`?
 - 16
 - 24
 - 32
+
+### **Answer:** 
+The median of the column `'ram'` is 16.
+
 
 ### Prepare and split the dataset
 
@@ -83,6 +90,9 @@ Options:
 - With mean
 - Both are equally good
 
+### **Answer:** 
+Option 1 (filled with 0) provides the better, i.e. lower, RMSE: 597.36.
+
 
 ### Question 4
 
@@ -103,6 +113,8 @@ Options:
 - 10
 - 100
 
+### **Answer:** 
+Out of the list of possible options, the `r` yielding the lowest RMSE is 10.
 
 ### Question 5 
 
@@ -126,6 +138,8 @@ What's the value of std?
 > If it's high, the values are different. 
 > If standard deviation of scores is low, then our model is *stable*.
 
+### **Answer:** 
+The std is 29.176.
 
 ### Question 6
 
@@ -140,6 +154,9 @@ Options:
 - 608.60
 - 618.60
 - 628.60
+
+### **Answer:** 
+The RMSE of the dataset is 606.60.
 
 ## Submit the results
 
