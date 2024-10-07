@@ -220,7 +220,7 @@ std_rmse = np.std(rmse_list)
 print(f"Standard deviation of RMSE scores: {round(std_rmse, 3)}")
 
 # ===============================================================================
-# Q6:
+# Q6: Training on concatenated df consisting of df_train and df_val
 
 # Define the seed for shuffling
 seed = 9
