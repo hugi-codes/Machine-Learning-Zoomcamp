@@ -156,7 +156,7 @@ Options:
 - 628.60
 
 ### **Answer:** 
-The RMSE of the dataset is 606.60.
+The RMSE of the dataset is 608.60.
 
 ## Submit the results
 
