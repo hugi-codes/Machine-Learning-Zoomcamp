@@ -52,6 +52,8 @@ What is the most frequent observation (mode) for the column `education`?
 - `secondary`
 - `tertiary`
 
+### **Answer:** 
+The most frequent observation of the column `education` is `secondary`.
 
 ### Question 2
 
@@ -65,6 +67,8 @@ What are the two features that have the biggest correlation?
 - `day` and `pdays`
 - `pdays` and `previous`
 
+### **Answer:** 
+`pdays` and `previous` have the highest correlation (0.454820).
 
 ### Target encoding
 
@@ -88,6 +92,9 @@ Which of these variables has the biggest mutual information score?
 - `education`
 - `housing`
 - `poutcome`
+
+### **Answer:** 
+`poutcome` has the biggest mutual information score.
 
 
 ### Question 4
