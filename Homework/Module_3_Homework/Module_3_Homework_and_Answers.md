@@ -113,6 +113,9 @@ What accuracy did you get?
 - 0.8
 - 0.9
 
+### **Answer:** 
+The accuracy is 0.9.
+
 
 ### Question 5 
 
@@ -129,6 +132,9 @@ Which of following feature has the smallest difference?
 - `previous`
 
 > **Note**: The difference doesn't have to be positive.
+
+### **Answer:** 
+The feauture `marital` has the smallest difference.
 
 
 ### Question 6
@@ -147,6 +153,9 @@ Which of these `C` leads to the best accuracy on the validation set?
 - 100
 
 > **Note**: If there are multiple options, select the smallest `C`.
+
+### **Answer:** 
+C = 10 leads to the best accuracy on the validation set (0.899)
 
 ## Submit the results
 
