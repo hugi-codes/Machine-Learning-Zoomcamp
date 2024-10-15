@@ -105,3 +105,80 @@ accuracy = accuracy_score(y_val, y_pred)
 
 # Print accuracy rounded to 2 decimal digits
 print(f"Validation Accuracy: {accuracy:.2f}")
+
+
+
+
+# ===============================================================================
+# Q5:  Feature elimination
+# Separate the features and target variable
+X = df_selected.drop('y', axis=1)  # Features
+y = df_selected['y']               # Target variable
+
+# Split the dataset into training and validation sets for both features and target
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Convert the training and validation feature sets into dictionaries
+train_dict = X_train.to_dict(orient='records')
+val_dict = X_val.to_dict(orient='records')
+
+# Use DictVectorizer to one-hot encode categorical features and keep numerical ones as they are
+dv = DictVectorizer(sparse=False)
+
+# Fit and transform the training data
+X_train_transformed = dv.fit_transform(train_dict)
+X_val_transformed = dv.transform(val_dict)
+
+# Logistic regression model with specified parameters
+model = LogisticRegression(solver='liblinear', C=1.0, max_iter=1000, random_state=42)
+
+# Fit the model on the full training data
+model.fit(X_train_transformed, y_train)
+
+# Predict on the validation dataset
+y_pred = model.predict(X_val_transformed)
+
+# Calculate baseline accuracy
+baseline_accuracy = accuracy_score(y_val, y_pred)
+print(f"Baseline Accuracy: {baseline_accuracy:.4f}")
+
+# List of features to test for elimination
+features_to_test = ['age', 'balance', 'marital', 'previous']
+
+# Store differences in accuracy
+feature_differences = {}
+
+# Iterate over the features to eliminate them one by one
+for feature in features_to_test:
+    
+    # Remove the feature from the original training and validation data
+    X_train_dropped = X_train.drop(columns=[feature])
+    X_val_dropped = X_val.drop(columns=[feature])
+    
+    # Convert the training and validation feature sets without the feature into dictionaries
+    train_dict_dropped = X_train_dropped.to_dict(orient='records')
+    val_dict_dropped = X_val_dropped.to_dict(orient='records')
+    
+    # Transform the data using the same DictVectorizer
+    X_train_transformed_dropped = dv.transform(train_dict_dropped)
+    X_val_transformed_dropped = dv.transform(val_dict_dropped)
+    
+    # Train a logistic regression model without the feature
+    model.fit(X_train_transformed_dropped, y_train)
+    
+    # Predict on the validation dataset without the feature
+    y_pred_dropped = model.predict(X_val_transformed_dropped)
+    
+    # Calculate accuracy without the feature
+    accuracy_dropped = accuracy_score(y_val, y_pred_dropped)
+    
+    # Calculate the difference in accuracy
+    accuracy_difference = baseline_accuracy - accuracy_dropped
+    feature_differences[feature] = accuracy_difference
+    
+    print(f"Feature: {feature}, Accuracy without feature: {accuracy_dropped:.4f}, Difference: {accuracy_difference:.4f}")
+
+# Find the feature with the smallest difference
+least_useful_feature = min(feature_differences, key=feature_differences.get)
+
+print(f"The least useful feature is: {least_useful_feature}")
