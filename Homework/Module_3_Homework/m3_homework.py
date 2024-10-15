@@ -106,9 +106,6 @@ accuracy = accuracy_score(y_val, y_pred)
 # Print accuracy rounded to 2 decimal digits
 print(f"Validation Accuracy: {accuracy:.2f}")
 
-
-
-
 # ===============================================================================
 # Q5:  Feature elimination
 # Separate the features and target variable
@@ -182,3 +179,58 @@ for feature in features_to_test:
 least_useful_feature = min(feature_differences, key=feature_differences.get)
 
 print(f"The least useful feature is: {least_useful_feature}")
+
+# ===============================================================================
+# Q6:  Train regularized linear regression model
+# Separate the features and target variable
+X = df_selected.drop('y', axis=1)  # Features
+y = df_selected['y']               # Target variable
+
+# Split the dataset into training and validation sets for both features and target
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Convert the training and validation feature sets into dictionaries
+train_dict = X_train.to_dict(orient='records')
+val_dict = X_val.to_dict(orient='records')
+
+# Use DictVectorizer to one-hot encode categorical features and keep numerical ones as they are
+dv = DictVectorizer(sparse=False)
+
+# Fit and transform the training data
+X_train_transformed = dv.fit_transform(train_dict)
+X_val_transformed = dv.transform(val_dict)
+
+# Values of C to test
+C_values = [0.01, 0.1, 1, 10, 100]
+
+# Store accuracies for different values of C
+accuracies = {}
+
+# Iterate over the different values of C
+for C in C_values:
+    
+    # Logistic regression model with the current value of C and specified parameters
+    model = LogisticRegression(solver='liblinear', C=C, max_iter=1000, random_state=42)
+    
+    # Fit the model on the training data
+    model.fit(X_train_transformed, y_train)
+    
+    # Predict on the validation dataset
+    y_pred = model.predict(X_val_transformed)
+    
+    # Calculate accuracy
+    accuracy = accuracy_score(y_val, y_pred)
+    
+    # Round accuracy to 3 decimal digits
+    rounded_accuracy = round(accuracy, 3)
+    
+    # Store accuracy for the current value of C
+    accuracies[C] = rounded_accuracy
+    
+    print(f"C: {C}, Validation Accuracy: {rounded_accuracy}")
+
+# Find the value of C that gives the best accuracy
+best_C = max(accuracies, key=accuracies.get)
+best_accuracy = accuracies[best_C]
+
+print(f"Best C: {best_C}, Best Validation Accuracy: {best_accuracy}")
