@@ -1,1 +1,13 @@
 *.png
+
+# Ignore ZIP files
+bank+marketing.zip
+bank-additional.zip
+bank.zip
+
+# Ignore CSV files
+bank-full.csv
+bank.csv
+
+# Ignore text file
+bank-names.txt
