@@ -11,13 +11,13 @@ COPY Pipfile Pipfile.lock /app/
 RUN pip install pipenv && pipenv install --system --deploy
 
 # Copy the Flask application script to the working directory
-COPY flask_web_service.py /app/
+COPY docker_flask_web_service.py /app/
 
 # Set the environment variable for Flask
-ENV FLASK_APP=flask_web_service.py
+ENV FLASK_APP=docker_flask_web_service.py
 
 # Expose the port that the application will run on
 EXPOSE 9696
 
 # Use ENTRYPOINT to run Gunicorn
-ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:9696", "flask_web_service:app"]
+ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:9696", "docker_flask_web_service:app"]
