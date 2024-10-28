@@ -31,6 +31,9 @@ wget https://github.com/alexeygrigorev/datasets/raw/refs/heads/master/bank-full.
 * What's the version of pipenv you installed?
 * Use `--version` to find out
 
+### **Answer:** 
+I installed pipenv version 2024.2.0.
+
 
 ## Question 2
 
@@ -39,6 +42,12 @@ wget https://github.com/alexeygrigorev/datasets/raw/refs/heads/master/bank-full.
 
 > **Note**: you should create an empty folder for homework
 and do it there. 
+
+### **Answer:** 
+Created virtual env with python 3.11 by executing `pipenv --python 3.11`.
+Then installed scikit-learn: `pipenv install scikit-learn==1.5.2`.
+First hash for scikit-learn (to be found in the Pipfile.lock file):
+“Sha256:03b6158efa3faaf1feea3faa884c840ebd61b6484167c711548fce208ea09445”
 
 
 ## Models
@@ -98,7 +107,8 @@ $ md5sum model1.bin dv.bin
 3d8bb28974e55edefa000fe38fd3ed12  model1.bin
 7d37616e00aa80f2152b8b0511fc2dff  dv.bin
 ```
-
+### **Answer:** 
+The probability that this client will churn is 0.959.
 
 ## Question 4
 
@@ -121,6 +131,8 @@ What's the probability that this client will get a subscription?
 * 0.735
 * 0.935
 
+### **Answer:** 
+The probability that this client will churn is 0.335.
 
 ## Docker
 
@@ -159,6 +171,8 @@ So what's the size of this base image?
 
 You can get this information when running `docker images` - it'll be in the "SIZE" column.
 
+### **Answer:** 
+The size of the image is 130 MB.
 
 ## Dockerfile
 
@@ -198,6 +212,9 @@ What's the probability that this client will get a subscription now?
 * 0.530
 * 0.757
 * 0.960
+
+### **Answer:** 
+The probability that this client will get a subscription is: 0.757.
 
 
 ## Submit the results
