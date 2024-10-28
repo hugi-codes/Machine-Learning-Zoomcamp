@@ -1,6 +1,6 @@
 import requests
 
-url = "http://localhost:5000/predict"  # Update this URL if hosted on a different machine
+url = "http://0.0.0.0:5000/predict"  # Update this URL if hosted on a different machine
 client = {"job": "student", "duration": 280, "poutcome": "failure"}
 
 response = requests.post(url, json=client)
