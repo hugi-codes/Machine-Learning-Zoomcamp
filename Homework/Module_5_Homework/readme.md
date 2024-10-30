@@ -1,5 +1,5 @@
 ### Overview
-This folder contains the homework for [Module 5 of the Machine Learning Zoomcamp](https://github.com/DataTalksClub/machine-learning-zoomcamp/tree/master/05-deployment) and the necessary scripts / files to solve the questions. The questions and answers can be found in the file [Module_5_Homework_and_Answers.md](https://github.com/hugi-codes/Machine-Learning-Zoomcamp/blob/main/Homework/Module_5_Homework/Module_5_Homework_and_Answers.md)
+This folder contains the homework for [Module 5 of the Machine Learning Zoomcamp](https://github.com/DataTalksClub/machine-learning-zoomcamp/tree/master/05-deployment) and the necessary scripts / files to solve the questions. The questions and answers can be found in the file [Module_5_Homework_and_Answers.md](https://github.com/hugi-codes/Machine-Learning-Zoomcamp/blob/main/Homework/Module_5_Homework/Module_5_Homework_and_Answers.md).
 
 The topic of this module is the deployment of Machine Learning models. Below is a brief overview of which files in this folder relate to particular exercises of the homework. 
 
@@ -12,7 +12,7 @@ The goal here is to load an already-trained Machine Learning model and use it to
 Necessary files for this exercise:
 * **model1.bin**: the trained model to be used for inference 
 * **dv.bin**: the dict vectoriser which is applied to the model input before inference
-* **m5_homework.py**: contains code to load the model and the dict vectoriser from local and to insert a new observation into the trained model to obtain an output (a prediction). 
+* **m5_homework.py**: contains code to load the model and the dict vectoriser from local and to insert a new observation into the trained model to obtain an output (a prediction)
 
 ### Note on Exercise 4
 Expanding on exercise 3, the goal here is to serve the model as a web service, using Flask. This means we run the web service (locally) and communicate with it to obtain a prediction from the model: We make a POST request containing the client we want to score, to the web service with which the model is hosted. In **flask_web_service.py** we load the model and the dict vectoriser from local, just like in exercise 3. 
@@ -27,9 +27,9 @@ Necessary files for this exercise:
 
 ### Note on Exercise 5
 None of the files stored in this repo folder are related to this particular exercise. The goal for this exercise is to download a Docker image from Docker Hub.
-The command used to do this was:  `docker pull svizor/zoomcamp-model:3.11.5-slim`
+The command used to do this was:  `docker pull svizor/zoomcamp-model:3.11.5-slim`.
 
-To see the files stored inside the image (to which we have access if we run this image as a container) one can execute `docker run -it svizor/zoomcamp-model:3.11.5-slim /bin/sh` and then ls. The files stored inside the container are model2.bin and dv.bin (inside the app directory).
+To see the files stored inside the image (to which we have access if we run this image as a container) one can execute `docker run -it svizor/zoomcamp-model:3.11.5-slim /bin/sh` and then `ls`. The files stored inside the container are model2.bin and dv.bin (inside the app directory).
 
 ### Note on Exercise 6
 The goal here is to run the Flask app as a Docker container (locally). The first step was to create a Dockerfile. I added a further layer on top of the base image 
