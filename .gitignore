@@ -11,3 +11,6 @@ bank.csv
 
 # Ignore text file
 bank-names.txt
+
+# Ignore jupyter notebook checkpoints
+.ipynb_checkpoints/
