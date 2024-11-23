@@ -216,11 +216,20 @@ best_model.fit(X, y)
 # Saving the mbest model that has been trained on the entire data
 # Save the trained model as a pickle file
 import pickle
+import os
 
-
+# Define the file name for the pickle file
 pickle_filename = f"best_model_{best_model_name.lower().replace(' ', '_')}.pkl"
-with open(pickle_filename, 'wb') as file:
+
+# Get the directory of the current Python file (where the script is located)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the full path to save the pickle file in the same directory as the script
+pickle_filepath = os.path.join(script_dir, pickle_filename)
+
+# Save the trained model as a pickle file
+with open(pickle_filepath, 'wb') as file:
     pickle.dump(best_model, file)
 
-print(f"\nThe best model ({best_model_name}) has been saved as '{pickle_filename}'.")
+print(f"\nThe best model ({best_model_name}) has been saved as '{pickle_filepath}'.")
 print("Finished running train.py")
