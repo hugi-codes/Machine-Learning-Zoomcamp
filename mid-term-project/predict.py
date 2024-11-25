@@ -11,62 +11,82 @@ app = Flask(__name__)
 # Get the directory of the current script
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Find the only `.pkl` file in the directory
-pkl_files = [file for file in os.listdir(script_dir) if file.endswith('.pkl')]
+# Load all .pkl files in the script's directory
+pkl_files = {file: os.path.join(script_dir, file) for file in os.listdir(script_dir) if file.endswith('.pkl')}
 
-# Ensure there is exactly one `.pkl` file
-if len(pkl_files) != 1:
-    raise ValueError(f"Expected exactly one .pkl file in the directory, but found {len(pkl_files)}: {pkl_files}")
+# Load the DictVectorizer
+dict_vectorizer_file = next((f for f in pkl_files if "Dict_Vectorizer.pkl" in f), None)
+if not dict_vectorizer_file:
+    raise FileNotFoundError("Dict_Vectorizer.pkl not found.")
+with open(pkl_files[dict_vectorizer_file], 'rb') as f:
+    dict_vectorizer = pickle.load(f)
 
-# Load the model dynamically
-pickle_filepath = os.path.join(script_dir, pkl_files[0])
-with open(pickle_filepath, 'rb') as file:
-    best_model = pickle.load(file)
+# Load the MinMaxScaler
+minmax_scaler_file = next((f for f in pkl_files if "MinMax_scaler.pkl" in f), None)
+if not minmax_scaler_file:
+    raise FileNotFoundError("MinMax_scaler.pkl not found.")
+with open(pkl_files[minmax_scaler_file], 'rb') as f:
+    minmax_scaler = pickle.load(f)
 
-# Print a success message after loading the model
-print(f"The model has been loaded successfully from '{pickle_filepath}'.")
+# Load the model (any file containing 'model' in its filename)
+model_file = next((f for f in pkl_files if "Model" in f), None)
+if not model_file:
+    raise FileNotFoundError("Model pickle file not found.")
+with open(pkl_files[model_file], 'rb') as f:
+    best_model = pickle.load(f)
 
-
-EXPECTED_FEATURES = [
-    'Age', 'RestingBP', 'Cholesterol', 'MaxHR', 'Oldpeak',
-    'Sex_M', 'ChestPainType_ATA', 'ChestPainType_NAP', 'ChestPainType_TA',
-    'FastingBS_1', 'RestingECG_Normal', 'RestingECG_ST',
-    'ExerciseAngina_Y', 'ST_Slope_Flat', 'ST_Slope_Up'
-]
+# Print success messages
+print(f"DictVectorizer loaded successfully from '{dict_vectorizer_file}'.")
+print(f"MinMaxScaler loaded successfully from '{minmax_scaler_file}'.")
+print(f"Model loaded successfully from '{model_file}'.")
 
 def preprocess_input(data):
     """
-    Preprocess incoming JSON data to align with the model's expected features.
+    Preprocess incoming JSON data to align with the model's expectations.
     Includes:
-    - Categorical transformations
-    - One-hot encoding
+    - Categorical transformations (One-Hot Encoding)
     - Min-Max scaling
-    - Reindexing to ensure feature alignment
+    - Reindexing to ensure alignment with features used during model training
     """
     # Convert incoming data to a DataFrame
     df = pd.DataFrame([data])
 
-    # Define preprocessing parameters
+    # Define the categorical columns
     categorical_columns = ['Sex', 'ChestPainType', 'FastingBS', 'RestingECG', 'ExerciseAngina', 'ST_Slope']
-    numerical_columns = ['Age', 'RestingBP', 'Cholesterol', 'MaxHR', 'Oldpeak']
 
-    # Ensure proper column types for categorical data
+    # Ensure the categorical columns are of category type
     for col in categorical_columns:
         if col in df:
             df[col] = df[col].astype('category')
 
-    # One-hot encoding for categorical columns
-    df = pd.get_dummies(df, columns=categorical_columns, drop_first=True)
+    # Convert the DataFrame to a dictionary format for DictVectorizer
+    data_dicts = df.to_dict(orient='records')
 
-    # Min-Max Scaling for numerical columns
-    scaler = MinMaxScaler()
-    if any(col in df for col in numerical_columns):
-        df[numerical_columns] = scaler.fit_transform(df[numerical_columns])
+    # Apply the DictVectorizer to encode categorical variables (One-Hot Encoding)
+    transformed_data = dict_vectorizer.transform(data_dicts)
 
-    # Reindex to ensure all expected features are present
-    df = df.reindex(columns=EXPECTED_FEATURES, fill_value=0)
+    # Convert the transformed data back to a DataFrame
+    transformed_df = pd.DataFrame(transformed_data, columns=dict_vectorizer.get_feature_names_out())
 
-    return df
+    # Identify the numerical columns that should be scaled (after one-hot encoding)
+    # These are the columns in the original data that are numeric (before encoding)
+    numerical_columns = ['Age', 'RestingBP', 'Cholesterol', 'MaxHR', 'Oldpeak']
+
+
+    # Apply Min-Max scaling to the numerical columns
+    if len(numerical_columns) > 0:
+        # Apply the saved Min-Max scaler to the numerical columns
+        transformed_df[numerical_columns] = minmax_scaler.transform(transformed_df[numerical_columns])
+
+    # Reindex the transformed data to ensure it has all the features the model expects
+    transformed_df = transformed_df.reindex(columns=best_model.feature_names_in_, fill_value=0)
+
+    # Final preprocessed df, ready for modeling
+    print("Preprocessed input data, as required by model:")
+    print(transformed_df)
+
+    return transformed_df
+
 
 
 @app.route('/predict', methods=['POST'])
@@ -84,7 +104,7 @@ def predict():
         # Preprocess the input data
         preprocessed_data = preprocess_input(input_data)
 
-        # Ensure the preprocessed data matches the model's expected features
+        # Predict using the loaded model
         prediction_proba = best_model.predict_proba(preprocessed_data)[:, 1][0].item()  # Convert to native Python float
 
         # Determine heart disease risk
