@@ -13,6 +13,10 @@ import seaborn as sns
 import matplotlib as plt
 import sklearn
 import kagglehub
+from sklearn.feature_extraction import DictVectorizer
+from sklearn.preprocessing import MinMaxScaler
+import pickle
+import os
 
 
 # %% [markdown]
@@ -46,34 +50,58 @@ df[categorical_columns] = df[categorical_columns].astype('category')
 
 
 # %%
-# One-hot encoding of categorical features
+# Preprocessing Step 1: One-hot encoding of categorical features with DictVectorizer
+# Combine categorical and numerical columns into a list of dictionaries
+data_dicts = df.to_dict(orient='records')
 
-# Identify categorical columns (e.g., dtype == object or category)
-categorical_cols = df.select_dtypes(include=['object', 'category']).columns
+# Initialize and fit-transform DictVectorizer
+dv = DictVectorizer(sparse=False)
+encoded_data = dv.fit_transform(data_dicts)
 
-# Perform one-hot encoding
-df = pd.get_dummies(df, columns=categorical_cols, drop_first=True)
 
-# %%
-# Min Max scaling of numerical features
-# This is not necessary for random forest, but for other algorithms which are distance-based
-# Some algos have different requirements for preprocessing than others 
-from sklearn.preprocessing import MinMaxScaler
+# Get the directory of the current Python file (where the script is located)
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Identify numerical columns
+# Save the DictVectorizer to a pickle file in the same directory as the script
+dict_vectorizer_path = os.path.join(script_dir, 'Dict_Vectorizer.pkl')
+with open(dict_vectorizer_path, 'wb') as f:
+    pickle.dump(dv, f)
+
+# Convert encoded data back to a DataFrame (if needed)
+encoded_columns = dv.get_feature_names_out()
+df = pd.DataFrame(encoded_data, columns=encoded_columns)
+
+
+# Preprocessing Step 2: Min-Max scaling for numerical features
+# Identify numerical columns in the original DataFrame
 numerical_cols = df.select_dtypes(include=['int64', 'float64']).columns
 
 # Apply Min-Max Scaling
 scaler = MinMaxScaler()
 df[numerical_cols] = scaler.fit_transform(df[numerical_cols])
 
+# Save the MinMaxScaler to a pickle file in the same directory as the script
+minmax_scaler_path = os.path.join(script_dir, 'MinMax_scaler.pkl')
+with open(minmax_scaler_path, 'wb') as f:
+    pickle.dump(scaler, f)
+
 # Scales All Features to the Same Range: Each feature's values are normalized to lie within the specified range, commonly [0, 1].
 
 
 # %%
 # Creating Feature Matrix X and target var series y
-X = df.iloc[ : , :-1]
-y = df.iloc[ : , -1]
+# Define hardcoded feature names for X and y
+feature_names = ['Age', 'ChestPainType=ASY', 'ChestPainType=ATA', 'ChestPainType=NAP',
+                 'ChestPainType=TA', 'Cholesterol', 'ExerciseAngina=N',
+                 'ExerciseAngina=Y', 'FastingBS', 'MaxHR', 'Oldpeak',
+                 'RestingBP', 'RestingECG=LVH', 'RestingECG=Normal', 'RestingECG=ST',
+                 'ST_Slope=Down', 'ST_Slope=Flat', 'ST_Slope=Up', 'Sex=F', 'Sex=M']
+
+target_name = 'HeartDisease'
+
+# Create X (features) and y (target) with hardcoded names
+X = df[feature_names]
+y = df[target_name]
 
 # %%
 
@@ -219,7 +247,7 @@ import pickle
 import os
 
 # Define the file name for the pickle file
-pickle_filename = f"best_model_{best_model_name.lower().replace(' ', '_')}.pkl"
+pickle_filename = f"Best_Model_{best_model_name.lower().replace(' ', '_')}.pkl"
 
 # Get the directory of the current Python file (where the script is located)
 script_dir = os.path.dirname(os.path.abspath(__file__))
