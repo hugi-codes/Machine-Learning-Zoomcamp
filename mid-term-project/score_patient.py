@@ -7,7 +7,7 @@ url = "http://0.0.0.0:9696/predict"
 input_data = {
     "Age": 45,
     "Sex": "M",  # M: Male, F: Female
-    "ChestPainType": "ASY",  # TA, ATA, NAP, ASY
+    "ChestPainType": "NAP",  # TA, ATA, NAP, ASY
     "RestingBP": 120,  # Resting blood pressure [mm Hg]
     "Cholesterol": 230,  # Serum cholesterol [mm/dl]
     "FastingBS": 0,  # 1 if FastingBS > 120 mg/dl, 0 otherwise
