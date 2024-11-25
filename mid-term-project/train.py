@@ -1,4 +1,6 @@
 # The following code is notebook.ipynb exported as a Python script
+
+
 # Note: code for EDA has been omitted. Only code necessary for model training has been kept from notebook.ipynb
 # Exporting notebook.ipynb to train.py is a requirement for mid-term project. 
 # For more info on the project requirements, please check the links provided in README.md
@@ -7,6 +9,7 @@
 # ## Importing packages
 
 # %%
+
 import pandas as pd
 import numpy as np
 import seaborn as sns
@@ -74,11 +77,11 @@ df = pd.DataFrame(encoded_data, columns=encoded_columns)
 
 # Preprocessing Step 2: Min-Max scaling for numerical features
 # Identify numerical columns in the original DataFrame
-numerical_cols = df.select_dtypes(include=['int64', 'float64']).columns
+numerical_columns = ['Age', 'RestingBP', 'Cholesterol', 'MaxHR', 'Oldpeak']
 
 # Apply Min-Max Scaling
 scaler = MinMaxScaler()
-df[numerical_cols] = scaler.fit_transform(df[numerical_cols])
+df[numerical_columns] = scaler.fit_transform(df[numerical_columns])
 
 # Save the MinMaxScaler to a pickle file in the same directory as the script
 minmax_scaler_path = os.path.join(script_dir, 'MinMax_scaler.pkl')
@@ -98,6 +101,8 @@ feature_names = ['Age', 'ChestPainType=ASY', 'ChestPainType=ATA', 'ChestPainType
                  'ST_Slope=Down', 'ST_Slope=Flat', 'ST_Slope=Up', 'Sex=F', 'Sex=M']
 
 target_name = 'HeartDisease'
+
+print(df.columns)
 
 # Create X (features) and y (target) with hardcoded names
 X = df[feature_names]
