@@ -8,24 +8,24 @@ After completing all modules, this repo will also contain a final project, showc
 
 # Course syllabus:
 
-### Module 1: Introduction to Machine Learning
+* ### Module 1: Introduction to Machine Learning
 
-### Module 2: Machine Learning for Regression
+* ### Module 2: Machine Learning for Regression
 
-### Module 3: Machine Learning for Classification
+* ### Module 3: Machine Learning for Classification
 
-### Module 4: Evaluation Metrics for Classification
+* ### Module 4: Evaluation Metrics for Classification
 
-### Module 5: Deploying Machine Learning Models
+* ### Module 5: Deploying Machine Learning Models
 
-### Module 6: Decision Trees and Ensemble Learning
+* ### Module 6: Decision Trees and Ensemble Learning
 
-### Midterm project
+* ### Midterm project
 
-### Module 8: Neural Networks and Deep Learning
+* ### Module 8: Neural Networks and Deep Learning
 
-### Module 9: Serverless Deep Learning
+* ### Module 9: Serverless Deep Learning
 
-### Module 10: Kubernetes and TensorFlow Serving
+* ### Module 10: Kubernetes and TensorFlow Serving
 
-### Final Project 
+* ### Final Project 
